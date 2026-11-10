@@ -43,3 +43,5 @@ data/processed/splits/
 
 # Unused tuned model
 models/random_forest_tuned_model.joblib
+
+data/processed/splits/
