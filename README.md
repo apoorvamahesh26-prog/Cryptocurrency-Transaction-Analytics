@@ -1,11 +1,15 @@
 
 # Cryptocurrency Transaction Analytics
 
+A Big Data Analytics and Machine Learning project for analysing Bitcoin transactions and identifying potentially illicit transactions using PySpark, Random Forest, XGBoost, and Streamlit.
+
 ## Project Overview
 
-Cryptocurrency Transaction Analytics is a Big Data Analytics and Machine Learning project that analyses cryptocurrency transactions and identifies potentially illicit transactions.
+Cryptocurrency Transaction Analytics is a data-driven project that analyses large-scale Bitcoin transaction data using Big Data technologies and Machine Learning.
 
-The project uses the Elliptic Bitcoin Transaction Dataset and combines PySpark, Python, Machine Learning, and Streamlit to perform data processing, exploratory analysis, classification, and interactive visualization.
+The project uses the Elliptic Bitcoin Transaction Dataset to perform data quality analysis, exploratory data analysis, preprocessing, transaction classification, model evaluation, and temporal distribution shift analysis.
+
+An interactive Streamlit dashboard presents the analytical results and model predictions.
 
 ## Objectives
 
@@ -15,7 +19,7 @@ The project uses the Elliptic Bitcoin Transaction Dataset and combines PySpark, 
 - Identify potentially illicit transactions using Machine Learning.
 - Compare Random Forest and XGBoost models.
 - Analyse feature importance and temporal distribution shifts.
-- Present results through an interactive Streamlit dashboard.
+- Present analytical results through an interactive dashboard.
 
 ## Technologies Used
 
@@ -25,15 +29,15 @@ The project uses the Elliptic Bitcoin Transaction Dataset and combines PySpark, 
 | PySpark | Big Data processing |
 | Pandas | Data manipulation |
 | PyArrow | Parquet file handling |
-| Scikit-learn | Random Forest and evaluation |
+| Scikit-learn | Machine Learning and evaluation |
 | XGBoost | Gradient boosting classification |
 | Matplotlib | Data visualization |
 | Streamlit | Interactive dashboard |
-| Joblib | Model saving and loading |
+| Joblib | Model serialization |
 
 ## Dataset
 
-Dataset: Elliptic Bitcoin Transaction Dataset.
+**Dataset:** Elliptic Bitcoin Transaction Dataset
 
 The dataset contains:
 
@@ -49,9 +53,19 @@ The dataset contains:
 | Licit | 42,019 |
 | Illicit | 4,545 |
 | Unknown | 157,205 |
-| Total | 203,769 |
+| **Total** | **203,769** |
 
-Unknown transactions are not used as labelled training examples.
+Unknown transactions are excluded from labelled model training and evaluation.
+
+**Dataset setup:** The raw dataset is not included in this GitHub repository. Download the Elliptic dataset separately and place its three CSV files in:
+
+`data/raw/elliptic/`
+
+Required files:
+
+- `elliptic_txs_features.csv`
+- `elliptic_txs_classes.csv`
+- `elliptic_txs_edgelist.csv`
 
 ## Project Workflow
 
@@ -69,13 +83,13 @@ Unknown transactions are not used as labelled training examples.
 
 ## Machine Learning Models
 
-### Random Forest
+### 1. Random Forest
 
 - Number of estimators: 200
-- Class weighting: balanced_subsample
+- Class weighting: `balanced_subsample`
 - Random state: 42
 
-### XGBoost
+### 2. XGBoost
 
 - Number of estimators: 300
 - Maximum depth: 7
@@ -83,9 +97,9 @@ Unknown transactions are not used as labelled training examples.
 - Subsample: 0.8
 - Column sampling: 0.8
 
-## Final Model Comparison
+## Model Performance Comparison
 
-Evaluation on the chronological test set (time steps 35–49):
+Evaluation on the chronological test set (time steps 35–49).
 
 | Metric | Random Forest | XGBoost |
 |---|---:|---:|
@@ -96,57 +110,108 @@ Evaluation on the chronological test set (time steps 35–49):
 | ROC-AUC | 93.42% | 93.33% |
 | PR-AUC | 79.68% | 80.06% |
 
-Random Forest achieved a higher F1-score and precision on the final test set. XGBoost detected more illicit transactions.
+**Observation:** Random Forest achieved higher precision and F1-score, while XGBoost achieved slightly higher recall and PR-AUC on the final test set.
+
+These are retrospective results from the project evaluation, not evidence of reliable future-period performance.
 
 ## Dashboard Features
 
-The Streamlit dashboard includes:
+The Streamlit dashboard provides:
 
 1. Dashboard Overview
 2. Transaction Analysis
-3. ML Prediction
+3. Machine Learning Prediction
 4. Model Comparison
 5. Feature Importance
 
-## Installation
+The dashboard uses trained Random Forest and XGBoost models to support transaction classification and visualization.
 
-Clone the repository:
+## Project Structure
 
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+```text
+Cryptocurrency-Transaction-Analytics/
+│
+├── dashboard/
+│   ├── app.py
+│   └── pages/
+│       ├── 1_ML_Prediction.py
+│       ├── 2_Model_Comparison.py
+│       └── 3_Feature_Importance.py
+│
+├── data/
+│   ├── raw/
+│   │   └── elliptic/           # Download separately
+│   └── processed/              # Generated locally
+│
+├── models/
+│   ├── random_forest_model.joblib
+│   └── xgboost_final_model.joblib
+│
+├── reports/
+│   ├── eda/
+│   └── ml/
+│
+├── requirements.txt
+├── preprocessing.py
+├── train_model.py
+├── model_comparison.py
+├── exploratory_analysis.py
+└── README.md
 ```
 
-Open the project folder:
+## Installation and Setup
+
+### 1. Clone the Repository
 
 ```bash
-cd Cryptocurrency_Transaction_Analytics
+git clone https://github.com/apoorvamahesh26-prog/Cryptocurrency-Transaction-Analytics.git
 ```
 
-Create a virtual environment:
+### 2. Navigate to the Project Folder
+
+```bash
+cd Cryptocurrency-Transaction-Analytics
+```
+
+### 3. Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate it on Windows:
+### 4. Activate the Virtual Environment
+
+Windows PowerShell:
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-Install dependencies:
+### 5. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
+### 6. Configure the Dataset
+
+Download the Elliptic Bitcoin Transaction Dataset and place the three required CSV files inside:
+
+```text
+data/raw/elliptic/
+```
+
+The raw dataset is required for the dashboard's transaction prediction functionality.
+
 ## Run the Dashboard
+
+From the project root directory, execute:
 
 ```bash
 streamlit run dashboard/app.py
 ```
 
-Open the local URL displayed in the terminal, usually:
+Open the local URL displayed in your terminal:
 
 ```text
 http://localhost:8501
@@ -154,10 +219,11 @@ http://localhost:8501
 
 ## Important Limitations
 
-- The dataset contains a large proportion of unknown transactions.
-- Model evaluation uses a chronological split to simulate future transaction prediction.
+- A large proportion of transactions in the dataset have unknown labels.
+- Chronological splitting is used to simulate prediction on later time steps.
 - Significant temporal distribution shifts were observed, particularly in later test time steps.
-- The final test results were inspected during model development and should be treated as retrospective results, not an untouched independent evaluation.
+- Model performance can deteriorate substantially under temporal distribution shift.
+- Test results were inspected during model development and should be treated as retrospective results rather than an untouched independent evaluation.
 - Predictions are experimental and should not be treated as confirmed fraud determinations.
 
 ## Future Enhancements
@@ -170,4 +236,14 @@ http://localhost:8501
 
 ## Conclusion
 
-This project demonstrates how Big Data processing and Machine Learning can be combined to analyse cryptocurrency transactions and identify potentially illicit activity. It also highlights the importance of temporal validation and distribution-shift analysis when building transaction classification systems.
+This project demonstrates how Big Data processing and Machine Learning can be combined to analyse cryptocurrency transactions and identify potentially illicit activity.
+
+It also highlights the importance of chronological validation, model evaluation, and temporal distribution shift analysis when developing transaction classification systems.
+
+## Author
+
+**Apoorva Mahesh**
+
+GitHub: [apoorvamahesh26-prog](https://github.com/apoorvamahesh26-prog)
+
+**Project:** Cryptocurrency Transaction Analytics
