@@ -1,0 +1,15 @@
+{
+    "model": "XGBoost",
+    "max_depth": 7,
+    "learning_rate": 0.05,
+    "n_estimators": 300,
+    "threshold": 0.5,
+    "accuracy": 0.9753449310137973,
+    "precision": 0.8636363636363636,
+    "recall": 0.7368421052631579,
+    "f1_score": 0.7952167414050823,
+    "roc_auc": 0.9332648765417069,
+    "pr_auc": 0.8006191507366675,
+    "training_records": 29894,
+    "testing_records": 16670
+}

@@ -1,0 +1,13 @@
+{
+    "threshold": 0.3,
+    "accuracy": 0.9660467906418716,
+    "precision": 0.7382488479262673,
+    "recall": 0.739612188365651,
+    "f1_score": 0.738929889298893,
+    "roc_auc": 0.9342435669661266,
+    "pr_auc": 0.796784866789228,
+    "training_records": 29894,
+    "testing_records": 16670,
+    "training_time_steps": "1-34",
+    "testing_time_steps": "35-49"
+}

@@ -1,0 +1,45 @@
+
+# Virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
+
+# Environment variables
+.env
+
+# Large raw dataset
+data/raw/
+
+# Temporary Spark files
+spark-warehouse/
+metastore_db/
+
+# Large processed dataset
+data/processed/unknown_transactions/
+# Large processed datasets (kept locally)
+data/processed/labelled_transactions/
+data/processed/splits/
+
+# Unused tuned model
+models/random_forest_tuned_model.joblib
